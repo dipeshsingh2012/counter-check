@@ -24,7 +24,7 @@
     [ CounterCheck Widget ] ── (Captures photo + product_id)
             │
             ▼
-[ POST /api/v1/fitment/analyze ] ──► (space-fitment-service)
+[ POST /api/v1/fitment/analyze ] ──► (counter-check-service)
 ```
 
 ---
