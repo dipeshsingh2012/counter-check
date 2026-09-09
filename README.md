@@ -24,7 +24,7 @@
     [ CounterCheck Widget ] ── (Captures photo + product_id)
             │
             ▼
-[ POST /api/v1/fitment/analyze ] ──► (counter-check-service)
+[ POST /api/v1/fitment/analyze ] ──► (space-fitment-service)
 ```
 
 ---
@@ -34,3 +34,4 @@
 - **Framework:** React / TypeScript / Vite
 - **Styling:** Tailwind CSS / Emotion
 - **Packaging:** Standalone Web Component / Micro-Frontend (MFE)
+

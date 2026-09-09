@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  product-catalog-service:
+    build:
+      context: ../product-catalog-service
+      dockerfile: Dockerfile
+    container_name: product-catalog-service
+    ports:
+      - "8001:8001"
+    environment:
+      - PORT=8001
+      - HOST=0.0.0.0
+      - DATABASE_URL=sqlite+aiosqlite:///./catalog.db
+      - CORS_ORIGINS=*
+    restart: unless-stopped
+
+  counter-check-service:
+    build:
+      context: ../counter-check-service
+      dockerfile: Dockerfile
+    container_name: counter-check-service
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - HOST=0.0.0.0
+      - CATALOG_SERVICE_URL=http://product-catalog-service:8001
+      - CORS_ORIGINS=*
+      - DEBUG=True
+    depends_on:
+      - product-catalog-service
+    restart: unless-stopped
+
+  counter-check:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: counter-check-widget
+    ports:
+      - "5173:80"
+    depends_on:
+      - counter-check-service
+    restart: unless-stopped
+
