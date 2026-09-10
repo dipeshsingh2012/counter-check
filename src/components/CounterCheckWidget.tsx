@@ -4,7 +4,7 @@ import {
   ProtonThemeProvider,
   ProtonButton,
   ProtonStatusBadge,
-} from 'proton/react';
+} from '@dipeshsingh2012/proton/react';
 import { CameraCapture } from './CameraCapture';
 import { FitmentGauge } from './FitmentGauge';
 import { InSceneVisualizer } from './InSceneVisualizer';
