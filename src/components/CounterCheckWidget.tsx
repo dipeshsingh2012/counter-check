@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { Ruler, Sparkles, X, AlertCircle } from 'lucide-react';
+import {
+  ProtonThemeProvider,
+  ProtonButton,
+  ProtonStatusBadge,
+} from 'proton/react';
 import { CameraCapture } from './CameraCapture';
 import { FitmentGauge } from './FitmentGauge';
 import { InSceneVisualizer } from './InSceneVisualizer';
@@ -50,111 +55,110 @@ export const CounterCheckWidget: React.FC<CounterCheckWidgetProps> = ({
   };
 
   return (
-    <div className={`w-full ${className}`}>
-      {/* PDP Embedded Trigger Button */}
-      {!isOpen && (
-        <div className="p-4 rounded-2xl border border-indigo-100 bg-gradient-to-r from-indigo-50/70 via-purple-50/50 to-blue-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-sm shadow-indigo-200">
-              <Ruler className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs font-bold uppercase tracking-wider text-indigo-700">
-                  CounterCheck™
-                </span>
-                <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-indigo-100 text-indigo-800">
-                  AI Fitment
-                </span>
-              </div>
-              <p className="text-xs text-slate-600 mt-0.5">
-                Will this fit under your kitchen cabinets?
-              </p>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setIsOpen(true)}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-xs transition-colors"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            Check My Counter
-          </button>
-        </div>
-      )}
-
-      {/* Expanded Fitment Checker Container */}
-      {isOpen && (
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl transition-all">
-          {/* Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
-                <Ruler className="w-4 h-4" />
+    <ProtonThemeProvider>
+      <div className={`w-full ${className}`}>
+        {/* PDP Embedded Trigger Button */}
+        {!isOpen && (
+          <div className="p-4 rounded-2xl border border-amber-200/80 bg-gradient-to-r from-amber-50/80 via-orange-50/40 to-amber-50/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-700 text-white flex items-center justify-center shadow-sm shadow-amber-200">
+                <Ruler className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-slate-900">CounterCheck Fitment Verification</h3>
-                <p className="text-xs text-slate-500">Checking clearance for {productName}</p>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-bold uppercase tracking-wider text-amber-900">
+                    CounterCheck™
+                  </span>
+                  <ProtonStatusBadge status="coffee" label="AI Fitment" size="sm" />
+                </div>
+                <p className="text-xs text-slate-600 mt-0.5">
+                  Will this fit under your kitchen cabinets?
+                </p>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+
+            <ProtonButton
+              size="sm"
+              startIcon={<Sparkles style={{ width: 14, height: 14 }} />}
+              onClick={() => setIsOpen(true)}
             >
-              <X className="w-4 h-4" />
-            </button>
+              Check My Counter
+            </ProtonButton>
           </div>
+        )}
 
-          {/* Body */}
-          <div className="mt-4 space-y-4">
-            {error && (
-              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0" />
-                <span>{error}</span>
-              </div>
-            )}
-
-            {!result ? (
-              <CameraCapture onPhotoSelected={handlePhotoSelected} isLoading={isAnalyzing} />
-            ) : (
-              <div className="space-y-4">
-                {/* Fitment Gauge Verdict */}
-                <FitmentGauge metrics={result.metrics} />
-
-                {/* In-Scene Synthesis Overlay */}
-                <InSceneVisualizer
-                  synthesizedImageUrl={result.synthesized_image_base64}
-                  originalImageUrl={originalImageUrl || undefined}
-                  productName={productName}
-                />
-
-                {/* Compact Alternatives if tight or exceeds */}
-                <AlternativeRecommendations
-                  alternatives={result.recommended_alternatives}
-                  onSelectProduct={(id) => {
-                    handleReset();
-                    onSelectAlternative?.(id);
-                  }}
-                />
-
-                {/* Retake Button */}
-                <div className="pt-2 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={handleReset}
-                    className="px-4 py-2 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors"
-                  >
-                    Test Another Photo / Area
-                  </button>
+        {/* Expanded Fitment Checker Container */}
+        {isOpen && (
+          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl transition-all">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-amber-700 text-white flex items-center justify-center">
+                  <Ruler className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900">CounterCheck Fitment Verification</h3>
+                  <p className="text-xs text-slate-500">Checking clearance for {productName}</p>
                 </div>
               </div>
-            )}
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="mt-4 space-y-4">
+              {error && (
+                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
+
+              {!result ? (
+                <CameraCapture onPhotoSelected={handlePhotoSelected} isLoading={isAnalyzing} />
+              ) : (
+                <div className="space-y-4">
+                  {/* Fitment Gauge Verdict */}
+                  <FitmentGauge metrics={result.metrics} />
+
+                  {/* In-Scene Synthesis Overlay */}
+                  <InSceneVisualizer
+                    synthesizedImageUrl={result.synthesized_image_base64}
+                    originalImageUrl={originalImageUrl || undefined}
+                    productName={productName}
+                  />
+
+                  {/* Compact Alternatives if tight or exceeds */}
+                  <AlternativeRecommendations
+                    alternatives={result.recommended_alternatives}
+                    onSelectProduct={(id) => {
+                      handleReset();
+                      onSelectAlternative?.(id);
+                    }}
+                  />
+
+                  {/* Retake Button */}
+                  <div className="pt-2 flex justify-end">
+                    <ProtonButton
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleReset}
+                    >
+                      Test Another Photo / Area
+                    </ProtonButton>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </ProtonThemeProvider>
   );
 };
 
