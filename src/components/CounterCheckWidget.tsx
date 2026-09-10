@@ -158,3 +158,4 @@ export const CounterCheckWidget: React.FC<CounterCheckWidgetProps> = ({
   );
 };
 
+export default CounterCheckWidget;
