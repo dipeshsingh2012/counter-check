@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Sparkles, Check } from 'lucide-react';
+import { PriceDisplay } from '@dipesh.singh/commerce-ui';
 import { AlternativeProduct } from '../types';
 
 interface AlternativeRecommendationsProps {
@@ -48,9 +49,7 @@ export const AlternativeRecommendations: React.FC<AlternativeRecommendationsProp
                 </span>
                 <h5 className="text-xs font-semibold text-slate-800 line-clamp-1">{alt.name}</h5>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-xs font-bold text-slate-900">
-                    ${alt.price.toFixed(2)}
-                  </span>
+                  <PriceDisplay cents={Math.round(alt.price * 100)} size="sm" />
                   <span className="text-[11px] text-emerald-600 font-medium inline-flex items-center gap-0.5">
                     <Check className="w-3 h-3" /> +{alt.clearance_margin_cm} cm clearance
                   </span>
