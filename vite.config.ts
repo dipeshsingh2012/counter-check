@@ -4,8 +4,9 @@ import federation from '@originjs/vite-plugin-federation';
 import fs from 'node:fs';
 import path from 'node:path';
 
-// https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  return {
+    base: process.env.VERCEL ? '/' : (process.env.VITE_BASE_URL || 'https://storage.googleapis.com/mycommerce/mfes/counter-check/'),
   plugins: [
     react(),
     federation({
@@ -54,11 +55,11 @@ export default defineConfig({
     },
     proxy: {
       '/api/v1/fitment': {
-        target: 'http://localhost:8000',
+        target: process.env.FITMENT_SERVICE_URL || 'http://127.0.0.1:8000',
         changeOrigin: true,
       },
       '/api/v1/products': {
-        target: 'http://localhost:8001',
+        target: process.env.CATALOG_SERVICE_URL || 'http://127.0.0.1:8001',
         changeOrigin: true,
       },
     },
@@ -70,4 +71,5 @@ export default defineConfig({
       'Access-Control-Allow-Origin': '*',
     },
   },
+};
 });

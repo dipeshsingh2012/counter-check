@@ -27,9 +27,9 @@ FRONTEND_PID=$!
 trap "echo 'Stopping all services...'; kill $CATALOG_PID $FITMENT_PID $FRONTEND_PID" EXIT
 
 echo "All services running:"
-echo " - Product Catalog API: http://localhost:8001/docs"
-echo " - Spatial AI Service:  http://localhost:8000/docs"
-echo " - Frontend Widget PDP: http://localhost:5173"
+echo " - Product Catalog API: http://127.0.0.1:8001/docs"
+echo " - Spatial AI Service:  http://127.0.0.1:8000/docs"
+echo " - Frontend Widget PDP: http://127.0.0.1:5173"
 echo "Press Ctrl+C to terminate all services."
 
 wait
